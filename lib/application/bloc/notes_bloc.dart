@@ -26,11 +26,9 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
         await for (var notes in getNotes()) {
           emit(NotesLoaded(notes));
         }
-        //this code not await the notes, it can cause error
-        // getNotes().listen((notes) {
-        //   emit(NotesLoaded(notes));
-        // });
       } catch (e) {
+        //debug porpuses
+        //CustomLog.error(message: 'BLOC_ERR', object: e.toString());
         emit(NotesError(e.toString()));
       }
     });

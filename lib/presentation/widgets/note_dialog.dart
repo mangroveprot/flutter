@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:noteapp_clean_architecture/application/bloc/notes_bloc.dart';
 import 'package:noteapp_clean_architecture/application/bloc/notes_event.dart';
+import 'package:noteapp_clean_architecture/application/utils/utils.dart';
 import 'package:noteapp_clean_architecture/data/models/note_model.dart';
 
 void openNoteBox(BuildContext context, NoteModel? notemodel) {
@@ -43,6 +44,8 @@ void openNoteBox(BuildContext context, NoteModel? notemodel) {
       actions: [
         ElevatedButton(
           onPressed: () {
+            CustomLog.success(
+                object: {'id': notemodel?.id, 'title': notemodel?.title});
             //add new note if notemodel id is empty
             if (notemodel == null) {
               context.read<NotesBloc>().add(AddNoteEvent(NoteModel(
@@ -54,11 +57,12 @@ void openNoteBox(BuildContext context, NoteModel? notemodel) {
                   )));
               //update notes if notemodel id has value
             } else {
-              context.read<NotesBloc>().add(AddNoteEvent(NoteModel(
+              CustomLog.success(object: 'IM_OKAY');
+              context.read<NotesBloc>().add(UpdateNoteEvent(NoteModel(
                     id: notemodel.id,
                     title: titleController.text,
                     content: contentController.text,
-                    createdAt: Timestamp.fromDate(DateTime.now()),
+                    createdAt: notemodel.createdAt,
                     updatedAt: Timestamp.fromDate(DateTime.now()),
                   )));
             }

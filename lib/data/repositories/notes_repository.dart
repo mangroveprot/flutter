@@ -7,31 +7,20 @@ class NotesRepository {
       FirebaseFirestore.instance.collection('notes');
 
   //Create
-  /*Example 
-  title: Exam
-  content: Todays exam
-  timestamp: 12/24/2025
-  */
   Future<void> addNote(NoteModel note) async {
     await notesCollection.add(note.toDocument());
   }
 
   //Read
-  //The output of this List
-  /*
-  Example;
-  [
-  NoteModel(title: "Note 3", content: "Content of Note 3", timestamp: DateTime(2025, 2, 3, 8, 0)),
-  NoteModel(title: "Note 2", content: "Content of Note 2", timestamp: DateTime(2025, 2, 2, 12, 0)),
-  NoteModel(title: "Note 1", content: "Content of Note 1", timestamp: DateTime(2025, 2, 1, 10, 0)),
-  ] */
   Stream<List<NoteModel>> getNotesStream() {
     return notesCollection
-        .orderBy('timestamp', descending: true)
-        .snapshots() //this listen for real-time changes in notesCollection
-        .map((snapshot) => snapshot.docs
-            .map((doc) => NoteModel.fromSnapshot(doc))
-            .toList()); // convert the notemodel result to list
+        .orderBy('createdAt', descending: true)
+        .snapshots() // Listen for real-time changes in notesCollection
+        .map((snapshot) {
+      return snapshot.docs
+          .map((doc) => NoteModel.fromSnapshot(doc))
+          .toList(); // Convert the NoteModel result to list
+    });
   }
 
   //Update

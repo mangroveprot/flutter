@@ -1,5 +1,6 @@
 import '../../data/models/note_model.dart';
 
+//STATUS
 abstract class NotesState {}
 
 class NotesInital extends NotesState {}

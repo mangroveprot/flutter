@@ -7,6 +7,6 @@ class UpdateNote {
   UpdateNote({required this.repository});
 
   Future<void> call(NoteModel note) async {
-    return await repository.addNote(note);
+    return await repository.updateNote(note);
   }
 }
