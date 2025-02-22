@@ -88,3 +88,57 @@ This guide will walk you through setting up Firebase for your Flutter project.
     runApp(const MyApp());
   }
   ```
+
+# BLoC Need To Know
+
+## state
+
+`state` - a state represents the current condition of your app at a given moment.
+
+```dart
+      BlocBuilder<NotesBloc, NotesState>(
+    builder: (context, state) {
+      if (state is NotesInitial) {
+        return Text("Welcome! Load your notes.");
+      } else if (state is NotesLoading) {
+        return CircularProgressIndicator(); // ⏳ Show loading
+      } else if (state is NotesLoaded) {
+        return ListView.builder(
+          itemCount: state.notes.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text(state.notes[index].title),
+              subtitle: Text(state.notes[index].content),
+            );
+          },
+        );
+      } else if (state is NotesError) {
+        return Text("Error: ${state.message}"); // ❌ Show error
+      } else {
+        return Text("No notes available.");
+      }
+    },
+  );
+```
+
+## emit()
+
+`emit()` - is used inside event handlers to update the state of the BLoC.
+
+### Example:
+
+```dart
+    on<LoadNotes>((event, emit) async {
+      emit(NotesLoading()); // Set the state to NotesLoading
+      try {
+        //Get each note in getnotes
+        await for (var notes in getNotes()) {
+          // Set the state to NotesLoaded
+          emit(NotesLoaded(notes));
+        }
+      } catch (e) {
+        //Set the state to NOtesError
+        emit(NotesError(e.toString()));
+      }
+    });
+```

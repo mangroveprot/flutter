@@ -1,6 +1,6 @@
 import '../../data/models/note_model.dart';
 
-//STATUS
+//State is the current condition
 abstract class NotesState {}
 
 class NotesInital extends NotesState {}

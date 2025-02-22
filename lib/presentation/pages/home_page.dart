@@ -30,27 +30,26 @@ class _HomePageState extends State<HomePage> {
         child: const Icon(Icons.add),
       ),
       body: BlocBuilder<NotesBloc, NotesState>(
+        //state is what bloc emits
         builder: (context, state) {
+          // if the bloc emits a NotesLoading show loading indicator
           if (state is NotesLoading) {
-            //show the progress indicator
             return const Center(
+              //loading indicator
               child: CircularProgressIndicator(),
             );
+            // if the bloc emits a NotesLoaded then it return the List of notes
           } else if (state is NotesLoaded) {
+            //call the notelist ui and pass the argument notes from the state
             return NoteList(notes: state.notes);
           } else if (state is NotesError) {
             CustomLog.error(message: 'home-error', object: state.message);
           }
           //if nothing on state
-          return Center(
+          return const Center(
             child: Column(
               children: [
-                const Text('No Notes'),
-                ElevatedButton(
-                    onPressed: () {
-                      CustomLog.success(message: 'data', object: state);
-                    },
-                    child: const Text('Click Me'))
+                Text('No Notes'),
               ],
             ),
           );

@@ -1,3 +1,4 @@
+//this is just a blueprint for the state
 import '../../data/models/note_model.dart';
 
 abstract class NotesEvent {}

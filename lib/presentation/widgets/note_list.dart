@@ -12,13 +12,23 @@ class NoteList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //listbuilder is like a loop
     return ListView.builder(
+        /* compare for forloop
+          for (int index = 0; index < state.notes.length; index++) {
+          final note = state.notes[index]; // Get each note by index
+            buildNoteItem(note); // Call a function that returns a UI widget
+          }
+        */
+
+        //this is like the state.notes.length
         itemCount: notes.length,
+        // this loops through each note
         itemBuilder: (context, index) {
           //access for each notes
           final note = notes[index];
 
-          //Display a list tile notes
+          //Display the notes that looped
           return ListTile(
             //note title
             title: Text(note.title),
